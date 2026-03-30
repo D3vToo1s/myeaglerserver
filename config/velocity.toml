@@ -1,5 +1,17 @@
+# velocity.toml for Eaglercraft-only deployment
+
 [servers]
-paper_backend = { address = "ATERNOS_PUBLIC_IP:PORT", motd = "Backend Paper Server" }
+# backend server for Eaglercraft traffic
+paper_backend = "chromiumnetworkco.falixsrv.me:25565"
 
 [advanced]
-# optional advanced settings
+# disable bungee cord-style legacy options
+force-key-authentication = false
+show-max-players = false
+
+[metrics]
+enabled = false
+
+[bind]
+# listen on all interfaces for Eaglercraft web traffic (default 8080)
+host = "0.0.0.0:8080"
