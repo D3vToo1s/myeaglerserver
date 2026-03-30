@@ -1,0 +1,5 @@
+[servers]
+paper_backend = { address = "ATERNOS_PUBLIC_IP:PORT", motd = "Paper Backend" }
+
+[advanced]
+# Optional advanced settings
