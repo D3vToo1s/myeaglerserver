@@ -1,6 +1,5 @@
-
-# Dockerfile
-FROM openjdk:17-jdk-slim
+# Use Eclipse Temurin 17 JDK slim
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /minecraft
 
