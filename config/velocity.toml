@@ -1,5 +1,3 @@
-# velocity.toml
-
 [servers]
 paper_backend = "chromiumnetworkco.falixsrv.me:25565"
 
@@ -15,14 +13,4 @@ mode = "MODERN"
 secret-file = "forwarding.secret"
 
 [players]
-online-mode = false
-
-[metrics]
-enabled = true
-
-[advanced]
-log-fine-timestamps = true
-
-[query]
-enabled = true
-port = 25577
+online-mode = true
