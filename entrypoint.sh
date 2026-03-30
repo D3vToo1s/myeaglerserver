@@ -13,17 +13,42 @@ mkdir -p plugins
 # 3. Download EaglerXServer plugin
 if [ ! -f "plugins/EaglerXServer.jar" ]; then
     echo "Downloading EaglerXServer..."
-    curl -Lo plugins/EaglerXServer.jar "https://release-assets.githubusercontent.com/github-production-release-asset/901524674/67366b4a-04dc-4685-8926-2d06b903e644?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-03-30T21%3A24%3A19Z&rscd=attachment%3B+filename%3DEaglerXServer.jar&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-03-30T20%3A23%3A42Z&ske=2026-03-30T21%3A24%3A19Z&sks=b&skv=2018-11-09&sig=XVZWgueRkOn4RATGWvuqjfnwYUtAILV8DzU%2BlX0L6W8%3D&jwt=eyJ0eXAiOiJKV1Qi..."
+    curl -Lo plugins/EaglerXServer.jar "YOUR_REAL_URL_HERE"
 fi
 
-# 4. Set backend server from environment variable
+# 4. Validate backend env
 if [ -z "$SERVER" ]; then
     echo "ERROR: SERVER environment variable not set!"
     exit 1
 fi
-echo "Setting backend server to $SERVER"
-sed -i "s|ATERNOS_PUBLIC_IP:PORT|$SERVER|g" velocity.toml
 
-# 5. Start Velocity
+echo "Using backend: $SERVER"
+
+# 5. Generate clean velocity.toml (NO sed)
+cat > velocity.toml <<EOF
+[servers]
+paper_backend = "$SERVER"
+
+[fallback]
+server = "paper_backend"
+
+[bind]
+host = "0.0.0.0"
+port = 25565
+
+[forwarding]
+mode = "MODERN"
+secret-file = "forwarding.secret"
+
+[players]
+online-mode = true
+EOF
+
+# 6. Ensure forwarding secret exists
+if [ ! -f "forwarding.secret" ]; then
+    echo "supersecretkey123" > forwarding.secret
+fi
+
+# 7. Start Velocity
 echo "Starting Velocity proxy..."
 java -Xmx1G -jar velocity.jar
