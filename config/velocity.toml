@@ -1,38 +1,28 @@
-# ===========================
-# Velocity Proxy Configuration
-# ===========================
+# velocity.toml
 
 [servers]
-# Key = server name, Value = address:port
 paper_backend = "chromiumnetworkco.falixsrv.me:25565"
 
 [fallback]
-# Fallback server when no server is available
 server = "paper_backend"
 
-[advanced]
-# Advanced terminal features (optional)
-log-fine-timestamps = true
+[bind]
+host = "0.0.0.0"
+port = 25565
+
+[forwarding]
+mode = "MODERN"
+secret-file = "forwarding.secret"
+
+[players]
+online-mode = false
 
 [metrics]
 enabled = true
 
-[forwarding]
-# Recommended for proxies with Bungee/Velocity style forwarding
-mode = "MODERN"
-secret-file = "forwarding.secret"
+[advanced]
+log-fine-timestamps = true
 
 [query]
-# Optional: allows server list pinging
 enabled = true
 port = 25577
-
-[bind]
-# Proxy listen address
-host = "0.0.0.0"
-port = 25565
-
-[players]
-# Player info forwarding settings
-# Set to true if you want online-mode UUIDs; false disables it (offline UUIDs)
-online-mode = true
