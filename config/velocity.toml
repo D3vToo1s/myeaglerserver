@@ -1,5 +1,5 @@
 [servers]
-paper_backend = { address = "ATERNOS_PUBLIC_IP:PORT", motd = "Paper Backend" }
+paper_backend = { address = "ATERNOS_PUBLIC_IP:PORT", motd = "Backend Paper Server" }
 
 [advanced]
-# Optional advanced settings
+# optional advanced settings
