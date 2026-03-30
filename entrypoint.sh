@@ -26,4 +26,4 @@ sed -i "s|ATERNOS_PUBLIC_IP:PORT|$SERVER|g" velocity.toml
 
 # 5. Start Velocity
 echo "Starting Velocity proxy..."
-java -Xmx1G -jar velocity.jar --no-console
+java -Xmx1G -jar velocity.jar
