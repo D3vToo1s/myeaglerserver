@@ -1,17 +1,20 @@
-# Use Eclipse Temurin 21 JDK
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:21-jre
 
-WORKDIR /minecraft
+WORKDIR /app
 
+# Install curl
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-COPY config/velocity.toml ./velocity.toml
-COPY config/listeners.yml ./listeners.yml
-COPY entrypoint.sh ./entrypoint.sh
+# Create plugins folder
+RUN mkdir -p plugins
+
+# Copy ALL config files
+COPY config/ ./
+COPY entrypoint.sh ./
 
 RUN chmod +x entrypoint.sh
 
-# Only Eaglercraft port
-EXPOSE 8080
+# Render uses dynamic port
+EXPOSE 10000
 
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["./entrypoint.sh"]
