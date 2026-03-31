@@ -13,5 +13,7 @@ forwarding-secret-file = "forwarding.secret"
 
 [servers]
 lobby = "ALobby.aternos.me:43482"
+lifesteal = "ALifestealServer.aternos.me:25850"
+survival = "ACoolSurvivalServer.aternos.me:42361"
 
 [forced-hosts]
