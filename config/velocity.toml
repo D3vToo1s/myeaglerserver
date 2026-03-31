@@ -1,6 +1,6 @@
 config-version = "2.7"
 
-bind = "0.0.0.0:8080"
+bind = "0.0.0.0:25565"
 
 motd = "A Velocity Server"
 show-max-players = 100
