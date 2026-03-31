@@ -1,19 +1,26 @@
 config-version = "2.7"
 
+# Bind (port will be replaced by Render automatically)
 bind = "0.0.0.0:25565"
 
 motd = "A Velocity Server"
 show-max-players = 100
 
+# IMPORTANT SETTINGS
 online-mode = false
 force-key-authentication = false
 
 player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
 
+# Backend servers (Aternos)
 [servers]
 lobby = "ALobby.aternos.me:43482"
 lifesteal = "ALifestealServer.aternos.me:25850"
 survival = "ACoolSurvivalServer.aternos.me:42361"
 
+# Fallback server (VERY IMPORTANT)
+try = ["lobby"]
+
+# Optional forced hosts (can leave empty)
 [forced-hosts]
