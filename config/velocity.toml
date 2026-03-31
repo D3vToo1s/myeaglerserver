@@ -12,6 +12,6 @@ player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
 
 [servers]
-paper_backend = "chromiumnetworkco.falixsrv.me:25565"
+lobby = "chromiumnetworkco.falixsrv.me:25565"
 
 [forced-hosts]
