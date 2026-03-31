@@ -12,6 +12,6 @@ player-info-forwarding-mode = "modern"
 forwarding-secret-file = "forwarding.secret"
 
 [servers]
-lobby = "chromiumnetworkco.falixsrv.me:25565"
+lobby = "ALobby.aternos.me:43482"
 
 [forced-hosts]
