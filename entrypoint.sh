@@ -9,38 +9,30 @@ mkdir -p plugins
 echo "Downloading Velocity..."
 curl -L -o velocity.jar https://fill-data.papermc.io/v1/objects/4334a3577a4c6daac264d1ff3be73d27ec1f4f9b3339af683bdcf3099f66402b/velocity-3.5.0-SNAPSHOT-584.jar
 
-# Download EaglerXServer (correct direct jar)
+# Download EaglerXServer
 echo "Downloading EaglerXServer..."
 curl -L -o plugins/EaglerXServer.jar https://edge.forgecdn.net/files/7205/709/EaglerXServer.jar
 
-# (Optional test) Via plugins on Velocity
+# Your Via plugin links (Paper builds)
 echo "Downloading ViaVersion..."
-curl -L -o plugins/ViaVersion.jar https://github.com/ViaVersion/ViaVersion/releases/latest/download/ViaVersion-Velocity.jar
+curl -L -o plugins/ViaVersion.jar https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.8.1/PAPER/ViaVersion-5.8.1.jar
 
 echo "Downloading ViaBackwards..."
-curl -L -o plugins/ViaBackwards.jar https://github.com/ViaVersion/ViaBackwards/releases/latest/download/ViaBackwards-Velocity.jar
+curl -L -o plugins/ViaBackwards.jar https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.8.1/PAPER/ViaBackwards-5.8.1.jar
 
 echo "Downloading ViaRewind..."
-curl -L -o plugins/ViaRewind.jar https://github.com/ViaVersion/ViaRewind/releases/latest/download/ViaRewind-Velocity.jar
+curl -L -o plugins/ViaRewind.jar https://hangarcdn.papermc.io/plugins/ViaVersion/ViaRewind/versions/4.0.15/PAPER/ViaRewind-4.0.15.jar
 
-# Fix port for Render (CRITICAL)
+# Fix Render port
 echo "Configuring port to $PORT..."
 sed -i "s/port = .*/port = $PORT/" velocity.toml
 
-# Debug info
-echo "===== DEBUG INFO ====="
-echo "PORT is: $PORT"
-
-echo "Root files:"
+# Debug
+echo "===== DEBUG ====="
+echo "PORT: $PORT"
 ls -lh
-
-echo "Plugins folder:"
 ls -lh plugins/
-
-echo "Velocity config:"
-cat velocity.toml
-
-echo "======================"
+echo "================="
 
 # Start server
 echo "Starting Velocity..."
