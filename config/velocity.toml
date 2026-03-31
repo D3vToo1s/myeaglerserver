@@ -1,16 +1,17 @@
+config-version = "2.7"
+
+bind = "0.0.0.0:25565"
+
+motd = "A Velocity Server"
+show-max-players = 100
+
+online-mode = false
+force-key-authentication = false
+
+player-info-forwarding-mode = "modern"
+forwarding-secret-file = "forwarding.secret"
+
 [servers]
 paper_backend = "chromiumnetworkco.falixsrv.me:25565"
 
-[fallback]
-server = "paper_backend"
-
-[bind]
-host = "0.0.0.0"
-port = 25565
-
-[forwarding]
-mode = "MODERN"
-secret-file = "forwarding.secret"
-
-[players]
-online-mode = true
+[forced-hosts]
