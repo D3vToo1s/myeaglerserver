@@ -15,6 +15,6 @@ COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 
 # Render uses dynamic port
-EXPOSE 10000
+EXPOSE 25565
 
 CMD ["./entrypoint.sh"]
