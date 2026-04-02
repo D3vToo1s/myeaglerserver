@@ -1,16 +1,12 @@
 config-version = "2.7"
-
-# IMPORTANT: This gets replaced at runtime by entrypoint.sh
-bind = "0.0.0.0:25565"
-
+bind = "0.0.0.0:$PORT"
 motd = "A Velocity Server"
 show-max-players = 100
 
 online-mode = false
 force-key-authentication = false
 
-player-info-forwarding-mode = "modern"
-forwarding-secret-file = "forwarding.secret"
+player-info-forwarding-mode = "none"
 
 [servers]
 lobby = "ALobby.aternos.me:43482"
@@ -18,5 +14,3 @@ lifesteal = "ALifestealServer.aternos.me:25850"
 survival = "ACoolSurvivalServer.aternos.me:42361"
 
 try = ["lobby"]
-
-[forced-hosts]
