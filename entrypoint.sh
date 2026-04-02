@@ -5,10 +5,11 @@ echo "Starting setup..."
 mkdir -p plugins
 
 # ----------------------------
-# OPEN PORT IMMEDIATELY (RENDER FIX)
+# OPEN PORT EARLY (RENDER FIX)
 # ----------------------------
 echo "Opening port early for Render..."
 python3 -m http.server $PORT >/dev/null 2>&1 &
+SERVER_PID=$!
 
 # ----------------------------
 # Download Velocity
@@ -26,25 +27,37 @@ curl -L -o plugins/ViaBackwards.jar https://hangarcdn.papermc.io/plugins/ViaVers
 curl -L -o plugins/ViaRewind.jar https://hangarcdn.papermc.io/plugins/ViaVersion/ViaRewind/versions/4.0.15/PAPER/ViaRewind-4.0.15.jar
 
 # ----------------------------
-# Configure port
+# Create velocity config (fresh)
 # ----------------------------
-echo "Configuring port..."
-sed -i "s|bind = \".*\"|bind = \"0.0.0.0:$PORT\"|" velocity.toml
+echo "Creating velocity.toml..."
+cat <<EOF > velocity.toml
+config-version = "2.7"
+bind = "0.0.0.0:$PORT"
+motd = "A Velocity Server"
+show-max-players = 100
+
+online-mode = false
+force-key-authentication = false
+
+player-info-forwarding-mode = "none"
+
+[servers]
+lobby = "ALobby.aternos.me:43482"
+lifesteal = "ALifestealServer.aternos.me:25850"
+survival = "ACoolSurvivalServer.aternos.me:42361"
+
+try = ["lobby"]
+EOF
 
 # ----------------------------
-# Debug
-# ----------------------------
-echo "velocity.toml:"
-cat velocity.toml
-
-# ----------------------------
-# Stop fake server (IMPORTANT)
+# Stop temporary server
 # ----------------------------
 echo "Stopping temporary server..."
-kill %1
+kill $SERVER_PID
+sleep 2
 
 # ----------------------------
 # Start Velocity
 # ----------------------------
 echo "Starting Velocity..."
-java -Xms512M -Xmx512M -jar velocity.jar
+exec java -Xms512M -Xmx512M -jar velocity.jar
