@@ -1,16 +1,13 @@
-config-version = "2.7"
-bind = "0.0.0.0:$PORT"
-motd = "A Velocity Server"
-show-max-players = 100
+bind = "0.0.0.0:25577"
 
 online-mode = false
-force-key-authentication = false
-
-player-info-forwarding-mode = "none"
+player-info-forwarding-mode = "modern"
+forwarding-secret-file = "forwarding.secret"
 
 [servers]
-lobby = "ALobby.aternos.me:43482"
-lifesteal = "ALifestealServer.aternos.me:25850"
-survival = "ACoolSurvivalServer.aternos.me:42361"
+lobby = "YOUR_FALIX_IP:25565"
+lifesteal = "YOUR_FREEMC_IP:25565"
+# survival = "YOUR_SURVIVAL_IP:25565"
 
-try = ["lobby"]
+[forced-hosts]
+"*" = ["lobby"]
