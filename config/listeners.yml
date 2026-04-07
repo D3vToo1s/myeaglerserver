@@ -1,9 +1,16 @@
 listener_list:
   - name: default
-    bind: 0.0.0.0:8080
+    bind: 0.0.0.0:25577
     motd: "Eaglercraft Proxy"
-    default_server: paper_backend
+    default_server: lobby
     restricted: false
     eaglercraft_enabled: true
-    eaglercraft_web_port: 8080
-    
+    eaglercraft_web_port: 25577
+
+servers:
+  lobby:
+    address: lobby
+  lifesteal:
+    address: lifesteal
+  survival:
+    address: survival
