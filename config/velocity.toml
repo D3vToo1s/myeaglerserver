@@ -6,7 +6,7 @@ forwarding-secret-file = "forwarding.secret"
 
 [servers]
 lobby = "YOUR_FALIX_IP:25565"
-lifesteal = "YOUR_FREEMC_IP:25565"
+lifesteal = "51.222.8.7:32098"
 # survival = "YOUR_SURVIVAL_IP:25565"
 
 [forced-hosts]
