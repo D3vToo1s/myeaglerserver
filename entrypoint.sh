@@ -1,63 +1,53 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-echo "Starting setup..."
+echo "Bootstrapping Eaglercraft proxy..."
 
-mkdir -p plugins
+SERVER_DIR="/server"
+PLUGINS_DIR="$SERVER_DIR/plugins"
+CONFIG_DIR="/app/config"
 
-# ----------------------------
-# OPEN PORT EARLY (RENDER FIX)
-# ----------------------------
-echo "Opening port early for Render..."
-python3 -m http.server $PORT >/dev/null 2>&1 &
-SERVER_PID=$!
+mkdir -p "$PLUGINS_DIR"
+cd "$SERVER_DIR"
 
-# ----------------------------
-# Download Velocity
-# ----------------------------
-echo "Downloading Velocity..."
-curl -L -o velocity.jar https://fill-data.papermc.io/v1/objects/4334a3577a4c6daac264d1ff3be73d27ec1f4f9b3339af683bdcf3099f66402b/velocity-3.5.0-SNAPSHOT-584.jar
+# ===== COPY CORE CONFIGS (BEFORE FIRST RUN) =====
+cp "$CONFIG_DIR/velocity.toml" .
+cp "$CONFIG_DIR/forwarding.secret" .
 
-# ----------------------------
-# Download plugins
-# ----------------------------
-echo "Downloading plugins..."
-curl -L -o plugins/EaglerXServer.jar https://edge.forgecdn.net/files/7205/709/EaglerXServer.jar
-curl -L -o plugins/ViaVersion.jar https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.8.1/PAPER/ViaVersion-5.8.1.jar
-curl -L -o plugins/ViaBackwards.jar https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.8.1/PAPER/ViaBackwards-5.8.1.jar
-curl -L -o plugins/ViaRewind.jar https://hangarcdn.papermc.io/plugins/ViaVersion/ViaRewind/versions/4.0.15/PAPER/ViaRewind-4.0.15.jar
+# ===== DOWNLOAD VELOCITY =====
+if [ ! -f velocity.jar ]; then
+  echo "Downloading Velocity..."
+  curl -o velocity.jar "https://fill-data.papermc.io/v1/objects/d9f6feb5b257d3f8d889978d55d0cfdc2f5fa3d01240dc7cd495d74fbb75cd8d/velocity-3.5.0-SNAPSHOT-585.jar"
+fi
 
-# ----------------------------
-# Create velocity config (fresh)
-# ----------------------------
-echo "Creating velocity.toml..."
-cat <<EOF > velocity.toml
-config-version = "2.7"
-bind = "0.0.0.0:$PORT"
-motd = "A Velocity Server"
-show-max-players = 100
+# ===== DOWNLOAD PLUGINS =====
+cd "$PLUGINS_DIR"
 
-online-mode = false
-force-key-authentication = false
+curl -o EaglerXServer.jar "https://mediafilez.forgecdn.net/files/7205/709/EaglerXServer.jar"
+curl -o ViaVersion.jar "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.8.1/PAPER/ViaVersion-5.8.1.jar"
+curl -o ViaBackwards.jar "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.8.1/PAPER/ViaBackwards-5.8.1.jar"
+curl -o ViaRewind.jar "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaRewind/versions/4.0.15/PAPER/ViaRewind-4.0.15.jar"
 
-player-info-forwarding-mode = "none"
+cd "$SERVER_DIR"
 
-[servers]
-lobby = "ALobby.aternos.me:43482"
-lifesteal = "ALifestealServer.aternos.me:25850"
-survival = "ACoolSurvivalServer.aternos.me:42361"
+# ===== FIRST RUN (GENERATE PLUGIN CONFIG FOLDERS) =====
+echo "Running first startup..."
+java -jar velocity.jar &
+PID=$!
 
-try = ["lobby"]
-EOF
+# Wait until Eagler folder exists
+echo "Waiting for plugin folders..."
+until [ -d "$PLUGINS_DIR/EaglerXServer" ]; do
+  sleep 1
+done
 
-# ----------------------------
-# Stop temporary server
-# ----------------------------
-echo "Stopping temporary server..."
-kill $SERVER_PID
+kill $PID || true
 sleep 2
 
-# ----------------------------
-# Start Velocity
-# ----------------------------
+# ===== COPY EAGLER CONFIG =====
+echo "Applying Eagler config..."
+cp "$CONFIG_DIR/listeners.yml" "$PLUGINS_DIR/EaglerXServer/"
+
+# ===== START SERVER =====
 echo "Starting Velocity..."
-exec java -Xms512M -Xmx512M -jar velocity.jar
+exec java -Xms512M -Xmx1024M -jar velocity.jar
